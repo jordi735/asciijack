@@ -20,6 +20,7 @@ class Game {
         void announceWinner(Player *);
         void activateSentientAI();
         void announceTie();
+        void checkWinner();
     public:
         void setup();
         void play();

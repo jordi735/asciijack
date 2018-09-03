@@ -99,7 +99,24 @@ void Game::announceTie() {
     std::cout << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
 };
 
-void Game::play() { // TODO: CLEAN THIS SHIT
+void Game::checkWinner() {
+    if (computer->isBusted()) { // PLAYER WINS
+        player->gainMoney(jar);
+        announceWinner(player);
+    } else {
+        if (computer->getHandWorth() == player->getHandWorth()) { // TIE AT 21
+            announceTie();
+            std::cout << computer->getHandWorth() << std::endl;
+            player->gainMoney(jar/2);
+            computer->gainMoney(jar/2);
+        } else { // COMPUTER WINS
+            announceWinner(computer);
+            computer->gainMoney(jar);
+        }
+    }
+};
+
+void Game::play() {
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
         // ONE BET ROUND
         bet = jar = 0;
@@ -129,25 +146,10 @@ void Game::play() { // TODO: CLEAN THIS SHIT
             } else if (choice[0] == '2') {
                 // STAY
                 activateSentientAI();
-                if (computer->isBusted()) { // PLAYER WINS
-                    player->gainMoney(jar);
-                    announceWinner(player);
-                    break;
-                } else {
-                    if (computer->getHandWorth() == player->getHandWorth()) { // TIE AT 21
-                        announceTie();
-                        std::cout << computer->getHandWorth() << std::endl;
-                        player->gainMoney(jar/2);
-                        computer->gainMoney(jar/2);
-                    } else { // COMPUTER WINS
-                        announceWinner(computer);
-                        computer->gainMoney(jar);
-                    }
-                    break;
-                }
             } else {
                 std::cout << "error: unknown option" << std::endl;
             }
+            checkWinner();
         }
     }
 };
