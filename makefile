@@ -1,5 +1,5 @@
-blackjack.out: bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o
-	g++ -g -Wall -O2 bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o -o blackjack.out
+asciijack.out: bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o
+	g++ -g -Wall -O2 bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o -o asciijack.out
 
 bin/card.o: src/card/card.cpp src/card/card.hpp
 	g++ -g -Wall -O2 -c src/card/card.cpp -o bin/card.o
@@ -13,4 +13,4 @@ bin/main.o: src/main.cpp
 	g++ -g -Wall -O2 -c src/main.cpp -o bin/main.o
 
 clean:
-	rm bin/*.o blackjack.out
+	rm bin/*.o asciijack.out

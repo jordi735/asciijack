@@ -19,5 +19,6 @@ class Player {
         void gainMoney(unsigned);
         void printHand();
         void printHidden();
+        bool isBusted();
 };
 #endif

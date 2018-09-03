@@ -75,6 +75,14 @@ void Player::printHidden() {
     }
 };
 
+bool Player::isBusted() {
+    if (this->getHandWorth() > 21) {
+        return true;
+    }
+
+    return false;
+};
+
 void Player::printHand() {
     for (int i = 0; i < 9; i++) {
         for (auto &s : hand) {

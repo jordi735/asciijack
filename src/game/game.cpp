@@ -3,10 +3,10 @@
 #include <iostream>
 
 void Game::setup() {
-    std::cout << "enter player name > ";
-    std::string name;
-    std::cin >> name;
-    player = new Player(name, 500);
+    //std::cout << "enter player name > ";
+    //std::string name;
+    //std::cin >> name;
+    player = new Player("player", 500);
     computer = new Player("dealer", 500);
     deck.gatherCards();
     deck.shuffle();
@@ -25,71 +25,111 @@ void Game::initialHandout() {
     computer->addCard(deck.drawCard());
 };
 
+void Game::printFunds() {
+    std::cout << computer->getName() << " money: " << computer->getMoney() << std::endl;
+    std::cout << player->getName() << " money: " << player->getMoney() << std::endl;
+};
+
+void Game::getBet() {
+    std::cout << "enter bet > ";
+    std::cin >> bet;
+};
+
+bool Game::confirmBet() {
+    if (bet > player->getMoney() || bet > computer->getMoney()) {
+        return false;
+    }
+
+    jar += bet * 2;
+    computer->loseMoney(bet);
+    player->loseMoney(bet);
+
+    return true;
+};
+
+std::string Game::getUserTurn() {
+    std::string choice;
+    std::cout << "1) hit"  << std::endl;
+    std::cout << "2) stay"  << std::endl;
+    std::cout << "enter number > ";
+    std::cin >> choice;
+    if (!choice.empty()) {
+        return choice;
+    } //TODO
+};
+
+void Game::announceWinner(Player *winner) {
+    std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
+    std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
+    std::cout << "the winner is: " << winner->getName() << std::endl;
+};
+
+void Game::handleHit() {
+    player->addCard(deck.drawCard());
+};
+
+void Game::activateSentientAI() {
+    computer->printHand();
+    while (computer->getHandWorth() < 21 || computer->getHandWorth() < player->getHandWorth()) {
+        system("sleep 1"); // TODO: MAKE POSIX
+        computer->addCard(deck.drawCard());
+        computer->printHand();
+    }
+};
+
+void Game::announceTie() {
+    std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
+    std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
+    std::cout << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
+};
+
 void Game::play() { // TODO: CLEAN THIS SHIT
-    constexpr unsigned short max = 21;
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
+        // ONE BET ROUND
+        bet = jar = 0;
         gatherCards();
         initialHandout();
-        computer->printHidden();
-        unsigned bet, jar;
-        bet = jar = 0;
-        std::cout << computer->getName() << " money: " << computer->getMoney() << std::endl;
-        std::cout << player->getName() << " money: " << player->getMoney() << std::endl;
-        std::cout << "enter bet > ";
-        std::cin >> bet;
-        if (bet > player->getMoney() || bet > computer->getMoney()) {
-            std::cout << "no money" << std::endl;
+        printFunds();
+        getBet();
+        if (!confirmBet()) {
+            std::cout << "error: not a valid bet" << std::endl;
             continue;
-        } else {
-            jar += bet * 2;
-            computer->loseMoney(bet);
-            player->loseMoney(bet);
         }
-
-        while (1) {
+        computer->printHidden();
+        while (true) {
+            // HIT STAY 
             player->printHand();
-            std::string choice;
-            std::cout << "hit or stay > ";
-            std::cin >> choice;
-            if (choice == "hit") {
-                player->addCard(deck.drawCard());
-                if (player->getHandWorth() > max) {
+            std::string choice = getUserTurn();
+
+            if (choice[0] == '1') {
+                // HIT
+                handleHit();
+                if (player->isBusted()) {
                     player->printHand();
-                    std::cout << "you went over by: " << (player->getHandWorth() - max) << std::endl;
-                    std::cout << computer->getName() << " won" << std::endl;
+                    announceWinner(computer);
                     computer->gainMoney(jar);
                     break;
                 }
-            } else if (choice == "stay") {
-                // DO COMPUTER STUFF
-                while (computer->getHandWorth() < max && computer->getHandWorth() < player->getHandWorth()) {
-                    computer->addCard(deck.drawCard());
-                    computer->printHand();
-                    system("sleep 1");
-                    if (computer->getHandWorth() == player->getHandWorth() && computer->getHandWorth() >= 17) {
-                        break;
-                    }
-                }
-                if (computer->getHandWorth() > max ) {
-                    // COMPUTER LOST
-                    std::cout << computer->getName() << " lost!" << std::endl;
+            } else if (choice[0] == '2') {
+                // STAY
+                activateSentientAI();
+                if (computer->isBusted()) { // PLAYER WINS
                     player->gainMoney(jar);
-                } else if (computer->getHandWorth() == player->getHandWorth()) {
-                    // TIE
-                    std::cout << "its a tie!" << std::endl;
-                    player->gainMoney(jar/2);
-                    computer->gainMoney(jar/2);
+                    announceWinner(player);
+                    break;
                 } else {
-                    // PLAYER LOST
-                    computer->gainMoney(jar);
-                    std::cout << player->getName() << " lost!" << std::endl;
+                    if (computer->getHandWorth() == player->getHandWorth()) { // TIE AT 21
+                        announceTie();
+                        std::cout << computer->getHandWorth() << std::endl;
+                        player->gainMoney(jar/2);
+                        computer->gainMoney(jar/2);
+                    } else { // COMPUTER WINS
+                        announceWinner(computer);
+                        computer->gainMoney(jar);
+                    }
+                    break;
                 }
-                std::cout << player->getName() << " handworth: " << player->getHandWorth() << std::endl;
-                std::cout << computer->getName() << " handworth: " << computer->getHandWorth() << std::endl;
-                bet = jar = 0;
-                break;
             }
-
         }
     }
 };
