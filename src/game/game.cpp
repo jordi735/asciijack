@@ -128,15 +128,18 @@ void Game::play() {
             std::cout << "error: not a valid bet" << std::endl;
             continue;
         }
-        computer->printHidden();
+        system("tput sc"); // TODO MAKE THIS WORK
         while (true) {
             // HIT STAY 
+            computer->printHidden();
             player->printHand();
             std::string choice = getUserTurn();
 
             if (choice[0] == '1') {
                 // HIT
                 handleHit();
+                system("tput rc"); // TODO MAKE THIS WORK
+                system("tput sc"); // TODO MAKE THIS WORK
                 if (player->isBusted()) {
                     player->printHand();
                     announceWinner(computer);
@@ -146,10 +149,11 @@ void Game::play() {
             } else if (choice[0] == '2') {
                 // STAY
                 activateSentientAI();
+                checkWinner();
+                break;
             } else {
                 std::cout << "error: unknown option" << std::endl;
             }
-            checkWinner();
         }
     }
 };
