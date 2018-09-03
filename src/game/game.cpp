@@ -32,14 +32,21 @@ void Game::printFunds() {
 
 void Game::getBet() {
     std::cout << "enter bet > ";
-    std::cin >> bet;
+    input = new std::string();
+    std::cin >> *input;
 };
 
 bool Game::confirmBet() {
+    for (auto &i : *input) {
+        if (!std::isdigit(i)) {
+            return false;
+        }
+    }
+
+    bet = std::stoi(*input);
     if (bet > player->getMoney() || bet > computer->getMoney()) {
         return false;
     }
-
     jar += bet * 2;
     computer->loseMoney(bet);
     player->loseMoney(bet);
@@ -70,10 +77,13 @@ void Game::handleHit() {
 
 void Game::activateSentientAI() {
     computer->printHand();
-    while (computer->getHandWorth() < 21 || computer->getHandWorth() < player->getHandWorth()) {
+    while (computer->getHandWorth() < player->getHandWorth()) {
         system("sleep 1"); // TODO: MAKE POSIX
         computer->addCard(deck.drawCard());
         computer->printHand();
+        if (computer->getHandWorth() >= 21) {
+            break;
+        }
     }
 };
 

@@ -10,6 +10,7 @@ class Game {
         Player *computer;
         void gatherCards();
         void initialHandout();
+        std::string *input;
         unsigned bet, jar;
         void printFunds();
         void getBet();
