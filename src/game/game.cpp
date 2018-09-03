@@ -166,27 +166,19 @@ bool Game::checkComparison() {
     unsigned short computerHandWorth = computer->getHandWorth();
     unsigned short playerHandWorth = player->getHandWorth();
 
-    if (computerHandWorth >= 17) {
-        if (computerHandWorth == playerHandWorth) {
-            announceTie();
-            player->gainMoney(jar/2);
-            computer->gainMoney(jar/2);
-            haveWinner = true;
-        } else if (computerHandWorth > playerHandWorth) {
-            announceWinner(computer);
-            computer->gainMoney(jar);
-            haveWinner = true;
-        } else if (computerHandWorth < playerHandWorth){
-            announceWinner(player);
-            player->gainMoney(jar);
-            haveWinner = true;
-        }
-    } else {
-        if (computerHandWorth > playerHandWorth) {
-            announceWinner(computer);
-            computer->gainMoney(jar);
-            haveWinner = true;
-        }
+    if (computerHandWorth == playerHandWorth) {
+        announceTie();
+        player->gainMoney(jar/2);
+        computer->gainMoney(jar/2);
+        haveWinner = true;
+    } else if (computerHandWorth > playerHandWorth) {
+        announceWinner(computer);
+        computer->gainMoney(jar);
+        haveWinner = true;
+    } else if (computerHandWorth < playerHandWorth){
+        announceWinner(player);
+        player->gainMoney(jar);
+        haveWinner = true;
     }
 
     return haveWinner;
