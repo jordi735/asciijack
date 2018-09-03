@@ -3,18 +3,15 @@
 #include <iostream>
 
 void Game::setup() {
-    //std::cout << "enter player name > ";
-    //std::string name;
-    //std::cin >> name;
-    std::cout << "setting up players..." << std::endl;
-    system("sleep 1");
+    std::cout << "[+] setting up players..." << std::endl;
+    system("sleep 0.5");
     player = new Player("player", 500);
     computer = new Player("dealer", 99999);
-    std::cout << "building deck..." << std::endl;
-    system("sleep 1");
+    std::cout << "[+] building deck..." << std::endl;
+    system("sleep 0.5");
     deck.create();
-    std::cout << "shuffling deck..." << std::endl;
-    system("sleep 1");
+    std::cout << "[+] shuffling deck..." << std::endl;
+    system("sleep 0.5");
 };
 
 void Game::gatherCards() {
@@ -31,12 +28,12 @@ void Game::initialHandout() {
 };
 
 void Game::printFunds() {
-    std::cout << computer->getName() << " money: $" << computer->getMoney() << std::endl;
-    std::cout << player->getName() << " money: $" << player->getMoney() << std::endl;
+    std::cout << "[$] " << computer->getName() << " money: $" << computer->getMoney() << std::endl;
+    std::cout << "[$] " << player->getName() << " money: $" << player->getMoney() << std::endl;
 };
 
 void Game::getBet() {
-    std::cout << "enter bet > ";
+    std::cout << "[?] enter bet > ";
     input = new std::string();
     std::cin >> *input;
 };
@@ -61,20 +58,20 @@ bool Game::confirmBet() {
 
 std::string Game::getUserTurn(bool doubleDown) {
     std::string choice;
-    std::cout << "1) hit"  << std::endl;
-    std::cout << "2) stay"  << std::endl;
+    std::cout << " 1) hit"  << std::endl;
+    std::cout << " 2) stay"  << std::endl;
     if (doubleDown && player->getMoney() >= bet) {
-        std::cout << "3) double"  << std::endl;
+        std::cout << " 3) double"  << std::endl;
     }
-    std::cout << "enter number > ";
+    std::cout << "[?] enter number > ";
     std::cin >> choice;
     return choice;
 };
 
 void Game::announceWinner(Player *winner) {
-    std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
-    std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
-    std::cout << "the winner is: " << winner->getName() << std::endl;
+    std::cout << "[#] " << player->getName() << " hand: " << player->getHandWorth() << std::endl;
+    std::cout << "[#] " << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
+    std::cout << "[!] the winner is: " << winner->getName() << std::endl;
 };
 
 void Game::handleHit() {
@@ -95,6 +92,9 @@ void Game::refreshScreenHidden() {
 
 void Game::activateSentientAI() {
     refreshScreen();
+    if (computer->getHandWorth() > player->getHandWorth()) {
+        return;
+    }
     while (computer->getHandWorth() <= player->getHandWorth()) {
         system("sleep 1");
         refreshScreen();
@@ -107,9 +107,9 @@ void Game::activateSentientAI() {
 };
 
 void Game::announceTie() {
-    std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
-    std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
-    std::cout << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
+    std::cout << "[#] " << player->getName() << " hand: " << player->getHandWorth() << std::endl;
+    std::cout << "[#] " << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
+    std::cout << "[!] " << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
 };
 
 void Game::handleDouble() {
@@ -132,6 +132,7 @@ void Game::errorMessage(std::string message) {
 bool Game::checkWinner() {
 
     refreshScreen();
+    bool haveWinner = false;
 
     unsigned short computerHandWorth = computer->getHandWorth();
     unsigned short playerHandWorth = player->getHandWorth();
@@ -139,31 +140,37 @@ bool Game::checkWinner() {
     if (player->isBusted()) {
         announceWinner(computer);
         computer->gainMoney(jar);
-        return true;
+        haveWinner = true;
     } else if (computer->isBusted()) {
         announceWinner(player);
         player->gainMoney(jar);
-        return true;
-    }
-
-    if (computerHandWorth >= 17) {
-        if (computerHandWorth == playerHandWorth) {
-            announceTie();
-            player->gainMoney(jar/2);
-            computer->gainMoney(jar/2);
-            return true;
-        } else if (computerHandWorth > playerHandWorth) { // COMPUTER WINS
-            announceWinner(computer);
-            computer->gainMoney(jar);
-            return true;
-        } else if (computerHandWorth < playerHandWorth){
-            announceWinner(player);
-            player->gainMoney(jar);
-            return true;
+        haveWinner = true;
+    } else {
+        if (computerHandWorth >= 17) {
+            if (computerHandWorth == playerHandWorth) {
+                announceTie();
+                player->gainMoney(jar/2);
+                computer->gainMoney(jar/2);
+                haveWinner = true;
+            } else if (computerHandWorth > playerHandWorth) {
+                announceWinner(computer);
+                computer->gainMoney(jar);
+                haveWinner = true;
+            } else if (computerHandWorth < playerHandWorth){
+                announceWinner(player);
+                player->gainMoney(jar);
+                haveWinner = true;
+            }
+        } else {
+            if (computerHandWorth > playerHandWorth) {
+                announceWinner(computer);
+                computer->gainMoney(jar);
+                haveWinner = true;
+            }
         }
     }
 
-    return false;
+    return haveWinner;
 };
 
 bool Game::handleChoice(std::string choice, bool firstRound) {
@@ -174,13 +181,13 @@ bool Game::handleChoice(std::string choice, bool firstRound) {
         activateSentientAI();
     } else if (sign == '3') {
         if (!firstRound || player->getMoney() < bet) {
-            errorMessage("error: cannot double");
+            errorMessage("[x] error: cannot double");
             return false;
         } else {
             handleDouble();
         }
     } else {
-        errorMessage("error: unknown option");
+        errorMessage("[x] error: unknown option");
         return false;
     }
 
@@ -198,7 +205,7 @@ void Game::play() {
         printFunds();
         getBet();
         if (!confirmBet()) {
-            errorMessage("error: not a valid bet");
+            errorMessage("[x] error: not a valid bet");
             continue;
         }
         while (true) {
@@ -215,6 +222,16 @@ void Game::play() {
                 break;
             }
         }
+    }
+    if (!player->getMoney()) {
+
+        std::cout << R"(    _________    _____   ____     _______  __ ___________  )" << std::endl;
+        std::cout << R"(   / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \ )" << std::endl;
+        std::cout << R"(  / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/ )" << std::endl;
+        std::cout << R"(  \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|    )" << std::endl;
+        std::cout << R"( /_____/     \/      \/     \/                   \/        )" << std::endl;
+        std::cout << std::endl;
+
     }
 };
 
