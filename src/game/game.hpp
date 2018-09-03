@@ -15,15 +15,17 @@ class Game {
         void printFunds();
         void getBet();
         bool confirmBet();
-        std::string getUserTurn();
+        std::string getUserTurn(bool);
         void handleHit();
         void announceWinner(Player *);
         void activateSentientAI();
         void announceTie();
-        void checkWinner();
-        void hangScreen();
+        bool checkWinner();
         void refreshScreen();
         void refreshScreenHidden();
+        bool handleChoice(std::string, bool);
+        void handleDouble();
+        void errorMessage(std::string);
     public:
         void setup();
         void play();

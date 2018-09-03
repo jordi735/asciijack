@@ -9,7 +9,7 @@ void Game::setup() {
     std::cout << "setting up players..." << std::endl;
     system("sleep 1");
     player = new Player("player", 500);
-    computer = new Player("dealer", 5000);
+    computer = new Player("dealer", 99999);
     std::cout << "building deck..." << std::endl;
     system("sleep 1");
     deck.create();
@@ -59,10 +59,13 @@ bool Game::confirmBet() {
     return true;
 };
 
-std::string Game::getUserTurn() {
+std::string Game::getUserTurn(bool doubleDown) {
     std::string choice;
     std::cout << "1) hit"  << std::endl;
     std::cout << "2) stay"  << std::endl;
+    if (doubleDown && player->getMoney() >= bet) {
+        std::cout << "3) double"  << std::endl;
+    }
     std::cout << "enter number > ";
     std::cin >> choice;
     return choice;
@@ -72,7 +75,6 @@ void Game::announceWinner(Player *winner) {
     std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
     std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
     std::cout << "the winner is: " << winner->getName() << std::endl;
-    hangScreen();
 };
 
 void Game::handleHit() {
@@ -108,69 +110,109 @@ void Game::announceTie() {
     std::cout << player->getName() << " hand: " << player->getHandWorth() << std::endl;
     std::cout << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
     std::cout << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
-    hangScreen();
 };
 
-void Game::checkWinner() {
+void Game::handleDouble() {
+    handleHit();
+    player->loseMoney(bet);
+    computer->loseMoney(bet);
+    jar *= 2;
+    if (player->isBusted()) {
+        return;
+    }
+    activateSentientAI();
+};
+
+void Game::errorMessage(std::string message) {
+    std::cerr << message << std::endl;
+    getchar();
+    getchar();
+};
+
+bool Game::checkWinner() {
+
+    refreshScreen();
+
     unsigned short computerHandWorth = computer->getHandWorth();
     unsigned short playerHandWorth = player->getHandWorth();
-    if (computerHandWorth == playerHandWorth) {
-        announceTie();
-        player->gainMoney(jar/2);
-        computer->gainMoney(jar/2);
-    } else if (computerHandWorth > playerHandWorth) { // COMPUTER WINS
+
+    if (player->isBusted()) {
         announceWinner(computer);
         computer->gainMoney(jar);
-    } else {
+        return true;
+    } else if (computer->isBusted()) {
         announceWinner(player);
         player->gainMoney(jar);
+        return true;
     }
+
+    if (computerHandWorth >= 17) {
+        if (computerHandWorth == playerHandWorth) {
+            announceTie();
+            player->gainMoney(jar/2);
+            computer->gainMoney(jar/2);
+            return true;
+        } else if (computerHandWorth > playerHandWorth) { // COMPUTER WINS
+            announceWinner(computer);
+            computer->gainMoney(jar);
+            return true;
+        } else if (computerHandWorth < playerHandWorth){
+            announceWinner(player);
+            player->gainMoney(jar);
+            return true;
+        }
+    }
+
+    return false;
 };
 
-void Game::hangScreen() {
-    getchar();
+bool Game::handleChoice(std::string choice, bool firstRound) {
+    char sign = choice[0];
+    if (sign == '1') {
+        handleHit();
+    } else if (sign == '2') {
+        activateSentientAI();
+    } else if (sign == '3') {
+        if (!firstRound || player->getMoney() < bet) {
+            errorMessage("error: cannot double");
+            return false;
+        } else {
+            handleDouble();
+        }
+    } else {
+        errorMessage("error: unknown option");
+        return false;
+    }
+
+    return true;
+
 };
 
 void Game::play() {
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
         // ONE BET ROUND
+        bool firstRound = true;
         bet = jar = 0;
         gatherCards();
         initialHandout();
         printFunds();
         getBet();
         if (!confirmBet()) {
-            std::cout << "error: not a valid bet" << std::endl;
+            errorMessage("error: not a valid bet");
             continue;
         }
         while (true) {
-            // HIT STAY 
             refreshScreenHidden();
-            std::string choice = getUserTurn();
+            std::string choice = getUserTurn((firstRound) ? true : false);
 
-            if (choice[0] == '1') {
-                // HIT
-                handleHit();
-                if (player->isBusted()) {
-                    refreshScreen();
-                    announceWinner(computer);
-                    computer->gainMoney(jar);
-                    break;
-                }
-            } else if (choice[0] == '2') {
-                // STAY
-                activateSentientAI();
-                if (computer->isBusted()) {
-                    refreshScreen();
-                    announceWinner(player);
-                    player->gainMoney(jar);
-                    break;
-                } else {
-                    checkWinner();
-                    break;
-                }
+            if (handleChoice(choice, firstRound)) {
+                firstRound = false;
             } else {
-                std::cout << "error: unknown option" << std::endl;
+                continue;
+            }
+
+            if (checkWinner()) {
+                break;
             }
         }
     }
