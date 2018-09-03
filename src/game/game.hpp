@@ -20,10 +20,11 @@ class Game {
         void announceWinner(Player *);
         void activateSentientAI();
         void announceTie();
-        bool checkWinner();
+        bool checkBusted();
+        bool checkComparison();
         void refreshScreen();
         void refreshScreenHidden();
-        bool handleChoice(std::string, bool);
+        bool handleChoice(std::string, bool *);
         void handleDouble();
         void errorMessage(std::string);
         void milliSleep(unsigned);

@@ -143,14 +143,9 @@ void Game::errorMessage(std::string message) {
     getchar();
 };
 
-bool Game::checkWinner() {
-
+bool Game::checkBusted() {
     refreshScreen();
     bool haveWinner = false;
-
-    unsigned short computerHandWorth = computer->getHandWorth();
-    unsigned short playerHandWorth = player->getHandWorth();
-
     if (player->isBusted()) {
         announceWinner(computer);
         computer->gainMoney(jar);
@@ -159,54 +154,68 @@ bool Game::checkWinner() {
         announceWinner(player);
         player->gainMoney(jar);
         haveWinner = true;
+    }
+    return haveWinner;
+};
+
+bool Game::checkComparison() {
+
+    refreshScreen();
+    bool haveWinner = false;
+
+    unsigned short computerHandWorth = computer->getHandWorth();
+    unsigned short playerHandWorth = player->getHandWorth();
+
+    if (computerHandWorth >= 17) {
+        if (computerHandWorth == playerHandWorth) {
+            announceTie();
+            player->gainMoney(jar/2);
+            computer->gainMoney(jar/2);
+            haveWinner = true;
+        } else if (computerHandWorth > playerHandWorth) {
+            announceWinner(computer);
+            computer->gainMoney(jar);
+            haveWinner = true;
+        } else if (computerHandWorth < playerHandWorth){
+            announceWinner(player);
+            player->gainMoney(jar);
+            haveWinner = true;
+        }
     } else {
-        if (computerHandWorth >= 17) {
-            if (computerHandWorth == playerHandWorth) {
-                announceTie();
-                player->gainMoney(jar/2);
-                computer->gainMoney(jar/2);
-                haveWinner = true;
-            } else if (computerHandWorth > playerHandWorth) {
-                announceWinner(computer);
-                computer->gainMoney(jar);
-                haveWinner = true;
-            } else if (computerHandWorth < playerHandWorth){
-                announceWinner(player);
-                player->gainMoney(jar);
-                haveWinner = true;
-            }
-        } else {
-            if (computerHandWorth > playerHandWorth) {
-                announceWinner(computer);
-                computer->gainMoney(jar);
-                haveWinner = true;
-            }
+        if (computerHandWorth > playerHandWorth) {
+            announceWinner(computer);
+            computer->gainMoney(jar);
+            haveWinner = true;
         }
     }
 
     return haveWinner;
 };
 
-bool Game::handleChoice(std::string choice, bool firstRound) {
+bool Game::handleChoice(std::string choice, bool *firstRound) {
     char sign = choice[0];
+    bool winnerLoser = false;
     if (sign == '1') {
         handleHit();
+        *firstRound = false;
+        if (checkBusted()) {
+            winnerLoser = true;
+        }
     } else if (sign == '2') {
         activateSentientAI();
+        if (checkBusted() || checkComparison()) {
+            winnerLoser = true;
+        }
     } else if (sign == '3') {
-        if (!firstRound || player->getMoney() < bet) {
-            errorMessage("[x] error: cannot double");
-            return false;
-        } else {
-            handleDouble();
+        handleDouble();
+        *firstRound = false;
+        if (checkBusted() || checkComparison()) {
+            winnerLoser = true;
         }
     } else {
         errorMessage("[x] error: unknown option");
-        return false;
     }
-
-    return true;
-
+    return winnerLoser;
 };
 
 void Game::play() {
@@ -226,15 +235,13 @@ void Game::play() {
             refreshScreenHidden();
             std::string choice = getUserTurn((firstRound) ? true : false);
 
-            if (handleChoice(choice, firstRound)) {
-                firstRound = false;
-            } else {
+            if (choice[0] == '3' && !firstRound) {
                 continue;
             }
 
-            if (checkWinner()) {
+            if (handleChoice(choice, &firstRound)) {
                 break;
-            }
+            } 
         }
     }
     if (!player->getMoney()) {
