@@ -35,3 +35,16 @@ Card *Deck::drawCard() {
     cards->pop_back();
     return card;
 };
+
+void Deck::returnToDeck(std::vector<Card *> hand) {
+    for (auto &i : hand) {
+        cards->push_back(i);
+    }
+};
+
+
+
+
+
+
+

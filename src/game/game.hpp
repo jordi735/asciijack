@@ -7,6 +7,8 @@ class Game {
         Deck deck;
         Player *player;
         Player *computer;
+        void gatherCards();
+        void initialHandout();
     public:
         void setup();
         void play();

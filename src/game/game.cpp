@@ -12,13 +12,25 @@ void Game::setup() {
     deck.shuffle();
 };
 
+void Game::gatherCards() {
+    deck.returnToDeck(player->giveHand());
+    deck.returnToDeck(computer->giveHand());
+    deck.shuffle();
+};
+
+void Game::initialHandout() {
+    player->addCard(deck.drawCard());
+    player->addCard(deck.drawCard());
+    computer->addCard(deck.drawCard());
+    computer->addCard(deck.drawCard());
+};
+
 void Game::play() { // TODO: CLEAN THIS SHIT
     constexpr unsigned short max = 21;
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
-        player->discardHand();
-        computer->discardHand();
-        player->addCard(deck.drawCard());
-        player->addCard(deck.drawCard());
+        gatherCards();
+        initialHandout();
+        computer->printHidden();
         unsigned bet, jar;
         bet = jar = 0;
         std::cout << computer->getName() << " money: " << computer->getMoney() << std::endl;
@@ -81,3 +93,4 @@ void Game::play() { // TODO: CLEAN THIS SHIT
         }
     }
 };
+

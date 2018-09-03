@@ -15,8 +15,9 @@ class Player {
         unsigned short getHandWorth();
         unsigned getMoney();
         void loseMoney(unsigned);
-        void discardHand();
+        std::vector<Card *> giveHand();
         void gainMoney(unsigned);
         void printHand();
+        void printHidden();
 };
 #endif

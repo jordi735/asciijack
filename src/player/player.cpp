@@ -53,8 +53,26 @@ void Player::gainMoney(unsigned m) {
     money += m;
 };
 
-void Player::discardHand() {
+std::vector<Card *> Player::giveHand() {
+    std::vector<Card *> handover(hand);
     hand.clear();
+    return handover;
+};
+
+void Player::printHidden() {
+    std::vector<std::string> backside;
+    backside.push_back("  _________ ");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("|+++++++++|");
+    backside.push_back("  ~~~~~~~~~ ");
+    for (int i = 0; i < 9; i++) {
+        std::cout << hand[0]->getArt()[i] << backside[i] << std::endl;
+    }
 };
 
 void Player::printHand() {
@@ -67,4 +85,4 @@ void Player::printHand() {
         }
         std::cout << std::endl;
     }
-}
+};

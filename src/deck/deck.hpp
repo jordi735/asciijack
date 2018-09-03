@@ -8,6 +8,7 @@ class Deck {
     public:
         void gatherCards();
         void shuffle();
+        void returnToDeck(std::vector<Card *>);
         Card *drawCard();
 };
 #endif
