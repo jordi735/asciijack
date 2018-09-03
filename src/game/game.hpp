@@ -21,6 +21,9 @@ class Game {
         void activateSentientAI();
         void announceTie();
         void checkWinner();
+        void hangScreen();
+        void refreshScreen();
+        void refreshScreenHidden();
     public:
         void setup();
         void play();

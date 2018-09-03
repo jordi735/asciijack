@@ -2,6 +2,7 @@
 #include <iostream>
 int main() {
 
+    system("clear");
     std::vector<std::string> asciiBanner;
     asciiBanner.push_back(R"(                       .__.__     __               __      )");
     asciiBanner.push_back(R"( _____    ______ _____ |__|__|   |__|____    ____ |  | __  )");
