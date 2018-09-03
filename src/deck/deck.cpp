@@ -7,7 +7,7 @@
 #include <chrono>
 #include <fstream>
 
-void Deck::gatherCards() {
+void Deck::create() {
     cards = new std::vector<Card *>(52);
     std::vector<std::string> art(10);
     std::ifstream asciiArts("src/resources/ascii.txt");
@@ -18,6 +18,7 @@ void Deck::gatherCards() {
             }
             (*cards)[i] = new Card(art);
         }
+        asciiArts.close();
     } else {
         std::cerr << "error: couldnt open ascii art" << std::endl;
         exit(1);

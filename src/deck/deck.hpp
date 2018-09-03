@@ -6,7 +6,7 @@ class Deck {
     private:
         std::vector<Card *> *cards;
     public:
-        void gatherCards();
+        void create();
         void shuffle();
         void returnToDeck(std::vector<Card *>);
         Card *drawCard();

@@ -6,10 +6,15 @@ void Game::setup() {
     //std::cout << "enter player name > ";
     //std::string name;
     //std::cin >> name;
+    std::cout << "setting up players..." << std::endl;
+    system("sleep 1");
     player = new Player("player", 500);
-    computer = new Player("dealer", 500);
-    deck.gatherCards();
-    deck.shuffle();
+    computer = new Player("dealer", 5000);
+    std::cout << "building deck..." << std::endl;
+    system("sleep 1");
+    deck.create();
+    std::cout << "shuffling deck..." << std::endl;
+    system("sleep 1");
 };
 
 void Game::gatherCards() {
