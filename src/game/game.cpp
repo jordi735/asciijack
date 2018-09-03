@@ -96,7 +96,7 @@ void Game::activateSentientAI() {
     while (computer->getHandWorth() <= player->getHandWorth()) {
         system("sleep 1");
         refreshScreen();
-        if (computer->getHandWorth() >= 21) {
+        if (computer->getHandWorth() >= 17) {
             break;
         }
         computer->addCard(deck.drawCard());
@@ -112,18 +112,18 @@ void Game::announceTie() {
 };
 
 void Game::checkWinner() {
-    if (computer->isBusted()) { // PLAYER WINS
-        player->gainMoney(jar);
-        announceWinner(player);
+    unsigned short computerHandWorth = computer->getHandWorth();
+    unsigned short playerHandWorth = player->getHandWorth();
+    if (computerHandWorth == playerHandWorth) {
+        announceTie();
+        player->gainMoney(jar/2);
+        computer->gainMoney(jar/2);
+    } else if (computerHandWorth > playerHandWorth) { // COMPUTER WINS
+        announceWinner(computer);
+        computer->gainMoney(jar);
     } else {
-        if (computer->getHandWorth() == player->getHandWorth()) { // TIE AT 21
-            announceTie();
-            player->gainMoney(jar/2);
-            computer->gainMoney(jar/2);
-        } else { // COMPUTER WINS
-            announceWinner(computer);
-            computer->gainMoney(jar);
-        }
+        announceWinner(player);
+        player->gainMoney(jar);
     }
 };
 
@@ -160,8 +160,15 @@ void Game::play() {
             } else if (choice[0] == '2') {
                 // STAY
                 activateSentientAI();
-                checkWinner();
-                break;
+                if (computer->isBusted()) {
+                    refreshScreen();
+                    announceWinner(player);
+                    player->gainMoney(jar);
+                    break;
+                } else {
+                    checkWinner();
+                    break;
+                }
             } else {
                 std::cout << "error: unknown option" << std::endl;
             }
