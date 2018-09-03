@@ -26,6 +26,7 @@ class Game {
         bool handleChoice(std::string, bool);
         void handleDouble();
         void errorMessage(std::string);
+        void milliSleep(unsigned);
     public:
         void setup();
         void play();

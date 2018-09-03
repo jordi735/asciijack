@@ -1,17 +1,31 @@
 #include "../deck/deck.hpp"
 #include "game.hpp"
 #include <iostream>
+#include <chrono>
+#include <thread>
+
+#ifdef _WIN32
+#define CLEARCOMMAND "CLS"
+#endif
+
+#ifdef linux
+#define CLEARCOMMAND "clear"
+#endif
+
+void Game::milliSleep(unsigned n) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(n));
+};
 
 void Game::setup() {
     std::cout << "[+] setting up players..." << std::endl;
-    system("sleep 0.5");
+    milliSleep(500);
     player = new Player("player", 500);
     computer = new Player("dealer", 99999);
     std::cout << "[+] building deck..." << std::endl;
-    system("sleep 0.5");
+    milliSleep(500);
     deck.create();
     std::cout << "[+] shuffling deck..." << std::endl;
-    system("sleep 0.5");
+    milliSleep(500);
 };
 
 void Game::gatherCards() {
@@ -79,13 +93,13 @@ void Game::handleHit() {
 };
 
 void Game::refreshScreen() {
-    system("clear");
+    system(CLEARCOMMAND);
     computer->printHand();
     player->printHand();
 };
 
 void Game::refreshScreenHidden() {
-    system("clear");
+    system(CLEARCOMMAND);
     computer->printHidden();
     player->printHand();
 };
@@ -96,7 +110,7 @@ void Game::activateSentientAI() {
         return;
     }
     while (computer->getHandWorth() <= player->getHandWorth()) {
-        system("sleep 1");
+        milliSleep(1000);
         refreshScreen();
         if (computer->getHandWorth() >= 17) {
             break;
