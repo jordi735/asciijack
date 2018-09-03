@@ -77,13 +77,14 @@ void Game::handleHit() {
 
 void Game::activateSentientAI() {
     computer->printHand();
-    while (computer->getHandWorth() < player->getHandWorth()) {
+    while (computer->getHandWorth() <= player->getHandWorth()) {
         system("sleep 1"); // TODO: MAKE POSIX
-        computer->addCard(deck.drawCard());
-        computer->printHand();
         if (computer->getHandWorth() >= 21) {
+            computer->printHand();
             break;
         }
+        computer->addCard(deck.drawCard());
+        computer->printHand();
     }
 };
 
@@ -139,6 +140,8 @@ void Game::play() { // TODO: CLEAN THIS SHIT
                     }
                     break;
                 }
+            } else {
+                std::cout << "error: unknown option" << std::endl;
             }
         }
     }

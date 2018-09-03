@@ -26,8 +26,8 @@ unsigned short Player::getHandWorth() {
         }
     }
 
-    for (int i = 0; i < amountAces; i++) {
-        if (total + 11 > 21) {
+    while (amountAces--) {
+        if (total + 11 + amountAces > 21) {
             total += 1;
         } else {
             total += 11;
