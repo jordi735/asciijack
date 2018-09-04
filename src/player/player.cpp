@@ -83,27 +83,8 @@ bool Player::isBusted() {
 };
 
 void Player::printHand() {
-
     std::vector<std::string> handArt(9);
-
-    /*
-    unsigned short worth = this->getHandWorth();
-
-    std::vector<std::string> numberArt(9);
-
-    numberArt[0] = R"(                 )";
-    numberArt[1] = R"(  ____________   )";
-    numberArt[2] = R"( /_   \_____  \  )";
-    numberArt[3] = R"(  |   |/  ____/  )";
-    numberArt[4] = R"(  |   /       \  )";
-    numberArt[5] = R"(  |___\_______ \ )";
-    numberArt[6] = R"(              \/ )";
-    numberArt[7] = R"(                 )";
-    numberArt[8] = R"(                 )";
-    */
-
     for (int i = 0; i < 9; i++) {
-        //handArt[i] += numberArt[i];
         for (auto &s : hand) {
             handArt[i] += ((s->getArt())[i]);
             if (i == 0 || i == 8) {
@@ -111,7 +92,6 @@ void Player::printHand() {
             }
         }
     }
-
     for (auto &i : handArt) {
         std::cout << i << std::endl;
     }

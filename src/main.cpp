@@ -15,4 +15,12 @@ int main() {
     Game blackjack;
     blackjack.setup();
     blackjack.play();
+
+    std::cout << R"(    _________    _____   ____     _______  __ ___________  )" << std::endl;
+    std::cout << R"(   / ___\__  \  /     \_/ __ \   /  _ \  \/ // __ \_  __ \ )" << std::endl;
+    std::cout << R"(  / /_/  > __ \|  Y Y  \  ___/  (  <_> )   /\  ___/|  | \/ )" << std::endl;
+    std::cout << R"(  \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|    )" << std::endl;
+    std::cout << R"( /_____/     \/      \/     \/                   \/        )" << std::endl;
+    std::cout << std::endl;
+
 };
