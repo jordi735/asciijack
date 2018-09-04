@@ -60,25 +60,18 @@ std::vector<Card *> Player::giveHand() {
 };
 
 void Player::printHidden() {
-    std::vector<std::string> backside;
-    backside.push_back("  _________ ");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("|+++++++++|");
-    backside.push_back("  ~~~~~~~~~ ");
     std::vector<std::string> handArt(9);
     for (int i = 0; i < 9; i++) {
         handArt[i] += " | ";
         handArt[i] += (hand[0]->getArt()[i]);
-        handArt[i] += backside[i];
-        handArt[i] += " | ";
-        if (i == 0 || i == 8) {
-            handArt[i] += " ";
+        if (i == 0) {
+            handArt[i] += "  _________ ";
+        } else if (i == 8) {
+            handArt[i] += "  ~~~~~~~~~ ";
+        } else {
+            handArt[i] += "|+++++++++|";
         }
+        handArt[i] += " | ";
     }
     for (auto &i : handArt) {
         std::cout << i << std::endl;

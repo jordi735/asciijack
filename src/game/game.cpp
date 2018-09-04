@@ -102,18 +102,12 @@ void Game::refreshScreen(bool hide) {
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
-    if (hide) {
-        computer->printHidden();
-    } else {
-        computer->printHand();
-    }
+    (hide) ? computer->printHidden() : computer->printHand();
     std::cout << " +-";
     for (int i = 0; i < computer->handSize(); i++) {
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
-
-
 
     std::cout << "          +------+" << std::endl;
     std::cout << "          |PLAYER|" << std::endl;
