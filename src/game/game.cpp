@@ -97,10 +97,8 @@ void Game::refreshScreen(bool hide) {
     std::cout << "          +------+" << std::endl;
     std::cout << "          |DEALER|" << std::endl;
     std::cout << "          +------+" << std::endl;
+    std::cout << " +-";
     for (int i = 0; i < computer->handSize(); i++) {
-        if (i == 0) {
-            std::cout << " +-";
-        }
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
@@ -109,10 +107,8 @@ void Game::refreshScreen(bool hide) {
     } else {
         computer->printHand();
     }
+    std::cout << " +-";
     for (int i = 0; i < computer->handSize(); i++) {
-        if (i == 0) {
-            std::cout << " +-";
-        }
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
@@ -122,18 +118,14 @@ void Game::refreshScreen(bool hide) {
     std::cout << "          +------+" << std::endl;
     std::cout << "          |PLAYER|" << std::endl;
     std::cout << "          +------+" << std::endl;
+    std::cout << " +-";
     for (int i = 0; i < player->handSize(); i++) {
-        if (i == 0) {
-            std::cout << " +-";
-        }
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
     player->printHand();
+    std::cout << " +-";
     for (int i = 0; i < player->handSize(); i++) {
-        if (i == 0) {
-            std::cout << " +-";
-        }
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
