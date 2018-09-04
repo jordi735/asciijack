@@ -42,10 +42,3 @@ void Deck::returnToDeck(std::vector<Card *> hand) {
         cards->push_back(i);
     }
 };
-
-
-
-
-
-
-

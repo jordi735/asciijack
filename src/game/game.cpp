@@ -92,31 +92,66 @@ void Game::handleHit() {
     player->addCard(deck.drawCard());
 };
 
-void Game::refreshScreen() {
+void Game::refreshScreen(bool hide) {
     system(CLEARCOMMAND);
-    computer->printHand();
-    player->printHand();
-};
+    std::cout << "          +------+" << std::endl;
+    std::cout << "          |DEALER|" << std::endl;
+    std::cout << "          +------+" << std::endl;
+    for (int i = 0; i < computer->handSize(); i++) {
+        if (i == 0) {
+            std::cout << " +-";
+        }
+        std::cout << "-----------";
+    }
+    std::cout << "-+" << std::endl;
+    if (hide) {
+        computer->printHidden();
+    } else {
+        computer->printHand();
+    }
+    for (int i = 0; i < computer->handSize(); i++) {
+        if (i == 0) {
+            std::cout << " +-";
+        }
+        std::cout << "-----------";
+    }
+    std::cout << "-+" << std::endl;
 
-void Game::refreshScreenHidden() {
-    system(CLEARCOMMAND);
-    computer->printHidden();
+
+
+    std::cout << "          +------+" << std::endl;
+    std::cout << "          |PLAYER|" << std::endl;
+    std::cout << "          +------+" << std::endl;
+    for (int i = 0; i < player->handSize(); i++) {
+        if (i == 0) {
+            std::cout << " +-";
+        }
+        std::cout << "-----------";
+    }
+    std::cout << "-+" << std::endl;
     player->printHand();
+    for (int i = 0; i < player->handSize(); i++) {
+        if (i == 0) {
+            std::cout << " +-";
+        }
+        std::cout << "-----------";
+    }
+    std::cout << "-+" << std::endl;
 };
 
 void Game::activateSentientAI() {
-    refreshScreen();
+    refreshScreen(false);
     if (computer->getHandWorth() > player->getHandWorth()) {
         return;
     }
     while (computer->getHandWorth() <= player->getHandWorth()) {
         milliSleep(1000);
-        refreshScreen();
+        refreshScreen(false);
         if (computer->getHandWorth() >= 17) {
             break;
         }
         computer->addCard(deck.drawCard());
-        refreshScreen();
+        refreshScreen(false);
     }
 };
 
@@ -144,7 +179,7 @@ void Game::errorMessage(std::string message) {
 };
 
 bool Game::checkBusted() {
-    refreshScreen();
+    refreshScreen(false);
     bool haveWinner = false;
     if (player->isBusted()) {
         announceWinner(computer);
@@ -160,7 +195,7 @@ bool Game::checkBusted() {
 
 bool Game::checkComparison() {
 
-    refreshScreen();
+    refreshScreen(false);
     bool haveWinner = false;
 
     unsigned short computerHandWorth = computer->getHandWorth();
@@ -212,7 +247,6 @@ bool Game::handleChoice(std::string choice, bool *firstRound) {
 
 void Game::play() {
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
-        // ONE BET ROUND
         bool firstRound = true;
         bet = jar = 0;
         gatherCards();
@@ -224,7 +258,7 @@ void Game::play() {
             continue;
         }
         while (true) {
-            refreshScreenHidden();
+            refreshScreen(true);
             std::string choice = getUserTurn((firstRound) ? true : false);
 
             if (choice[0] == '3' && !firstRound) {
@@ -237,4 +271,3 @@ void Game::play() {
         }
     }
 };
-

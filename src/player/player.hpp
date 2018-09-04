@@ -20,5 +20,6 @@ class Player {
         void printHand();
         void printHidden();
         bool isBusted();
+        unsigned short handSize();
 };
 #endif

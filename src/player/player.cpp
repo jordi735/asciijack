@@ -70,8 +70,18 @@ void Player::printHidden() {
     backside.push_back("|+++++++++|");
     backside.push_back("|+++++++++|");
     backside.push_back("  ~~~~~~~~~ ");
+    std::vector<std::string> handArt(9);
     for (int i = 0; i < 9; i++) {
-        std::cout << hand[0]->getArt()[i] << backside[i] << std::endl;
+        handArt[i] += " | ";
+        handArt[i] += (hand[0]->getArt()[i]);
+        handArt[i] += backside[i];
+        handArt[i] += " | ";
+        if (i == 0 || i == 8) {
+            handArt[i] += " ";
+        }
+    }
+    for (auto &i : handArt) {
+        std::cout << i << std::endl;
     }
 };
 
@@ -82,15 +92,21 @@ bool Player::isBusted() {
     return false;
 };
 
+unsigned short Player::handSize() {
+    return hand.size();
+};
+
 void Player::printHand() {
     std::vector<std::string> handArt(9);
     for (int i = 0; i < 9; i++) {
+        handArt[i] += " | ";
         for (auto &s : hand) {
             handArt[i] += ((s->getArt())[i]);
             if (i == 0 || i == 8) {
                 handArt[i] += " ";
             }
         }
+        handArt[i] += " | ";
     }
     for (auto &i : handArt) {
         std::cout << i << std::endl;

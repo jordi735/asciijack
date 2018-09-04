@@ -22,8 +22,7 @@ class Game {
         void announceTie();
         bool checkBusted();
         bool checkComparison();
-        void refreshScreen();
-        void refreshScreenHidden();
+        void refreshScreen(bool);
         bool handleChoice(std::string, bool *);
         void handleDouble();
         void errorMessage(std::string);
