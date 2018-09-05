@@ -2,7 +2,7 @@
 #include <iostream>
 int main() {
 
-    system("clear");
+    system(CLEARCOMMAND);
 
     std::cout << (R"(                       .__.__     __               __      )") << std::endl;
     std::cout << (R"( _____    ______ _____ |__|__|   |__|____    ____ |  | __  )") << std::endl;

@@ -3,6 +3,15 @@
 #include "../deck/deck.hpp"
 #include "../player/player.hpp"
 #include <string>
+
+#ifdef _WIN32
+#define CLEARCOMMAND "CLS"
+#endif
+
+#ifdef unix
+#define CLEARCOMMAND "clear"
+#endif
+
 class Game {
     private:
         Deck deck;

@@ -4,14 +4,6 @@
 #include <chrono>
 #include <thread>
 
-#ifdef _WIN32
-#define CLEARCOMMAND "CLS"
-#endif
-
-#ifdef unix
-#define CLEARCOMMAND "clear"
-#endif
-
 void Game::milliSleep(unsigned n) {
     std::this_thread::sleep_for(std::chrono::milliseconds(n));
 };
@@ -94,9 +86,9 @@ void Game::handleHit() {
 
 void Game::refreshScreen(bool hide) {
     system(CLEARCOMMAND);
-    std::cout << "          +------+" << std::endl;
-    std::cout << "          |DEALER|" << std::endl;
-    std::cout << "          +------+" << std::endl;
+    std::cout << "         +--------+" << std::endl;
+    std::cout << "         | DEALER |" << std::endl;
+    std::cout << "         +--------+" << std::endl;
     std::cout << " +-";
     for (int i = 0; i < computer->handSize(); i++) {
         std::cout << "-----------";
@@ -109,9 +101,9 @@ void Game::refreshScreen(bool hide) {
     }
     std::cout << "-+" << std::endl;
 
-    std::cout << "          +------+" << std::endl;
-    std::cout << "          |PLAYER|" << std::endl;
-    std::cout << "          +------+" << std::endl;
+    std::cout << "         +--------+" << std::endl;
+    std::cout << "         | PLAYER |" << std::endl;
+    std::cout << "         +--------+" << std::endl;
     std::cout << " +-";
     for (int i = 0; i < player->handSize(); i++) {
         std::cout << "-----------";
