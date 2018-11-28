@@ -9,7 +9,7 @@ class Player {
         std::vector<Card *> hand;
         unsigned money;
     public:
-        Player(std::string, const unsigned);
+        Player(std::string, unsigned);
         const std::string getName();
         void addCard(Card *);
         unsigned short getHandWorth();

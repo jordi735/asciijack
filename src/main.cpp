@@ -12,7 +12,7 @@ int main() {
     std::cout << (R"(       \/     \/     \/      \______|    \/     \/     \/  )") << std::endl;
     std::cout << std::endl;
 
-    Game blackjack;
+    Game blackjack{};
     blackjack.setup();
     blackjack.play();
 

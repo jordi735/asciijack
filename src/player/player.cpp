@@ -1,11 +1,11 @@
 #include "player.hpp"
 #include "../card/card.hpp"
-#include <vector>
+#include <utility> #include <vector>
 #include <string>
 #include <iostream>
 
 Player::Player(std::string n, const unsigned m) {
-    name = n;
+    name = std::move(n);
     money = m;
 };
 
@@ -86,7 +86,7 @@ bool Player::isBusted() {
 };
 
 unsigned short Player::handSize() {
-    return hand.size();
+    return static_cast<unsigned short>(hand.size());
 };
 
 void Player::printHand() {

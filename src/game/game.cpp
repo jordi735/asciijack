@@ -51,7 +51,7 @@ bool Game::confirmBet() {
         }
     }
 
-    bet = std::stoi(*input);
+    bet = static_cast<unsigned int>(std::stoi(*input));
     if (bet > player->getMoney() || bet > computer->getMoney()) {
         return false;
     }
@@ -237,7 +237,7 @@ void Game::play() {
         }
         while (true) {
             refreshScreen(true);
-            std::string choice = getUserTurn((firstRound) ? true : false);
+            std::string choice = getUserTurn(firstRound);
 
             if (choice[0] == '3' && !firstRound) {
                 continue;

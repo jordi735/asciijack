@@ -6,7 +6,7 @@ class Card {
     private:
         std::vector<std::string> *ascii;
     public:
-        Card(std::vector<std::string>);
+    explicit Card(std::vector<std::string>);
         const unsigned short getWorth();
         std::vector<std::string> getArt();
 };

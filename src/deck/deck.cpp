@@ -26,7 +26,7 @@ void Deck::create() {
 };
 
 void Deck::shuffle() {
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    long seed = std::chrono::system_clock::now().time_since_epoch().count();
     auto randomNumberGenerator = std::default_random_engine(seed);
     std::shuffle(std::begin(*(cards)), std::end(*(cards)), randomNumberGenerator);
 };

@@ -1,8 +1,9 @@
 #include "card.hpp"
 #include <iostream>
+#include <utility>
 
 Card::Card(std::vector<std::string> a) {
-    ascii = new std::vector<std::string>(a);
+    ascii = new std::vector<std::string>(std::move(a));
 };
 
 const unsigned short Card::getWorth() {
