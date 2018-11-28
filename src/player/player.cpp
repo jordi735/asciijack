@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "../card/card.hpp"
-#include <utility> #include <vector>
+#include <utility>
+#include <vector>
 #include <string>
 #include <iostream>
 
