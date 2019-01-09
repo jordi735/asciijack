@@ -25,4 +25,5 @@ class Player {
         bool isBusted();
         unsigned short handSize();
 };
+
 #endif

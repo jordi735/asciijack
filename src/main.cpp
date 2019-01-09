@@ -23,4 +23,4 @@ int main() {
     std::cout << R"( /_____/     \/      \/     \/                   \/        )" << std::endl;
     std::cout << std::endl;
 
-};
+}

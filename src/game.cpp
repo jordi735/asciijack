@@ -6,7 +6,7 @@
 
 void Game::milliSleep(unsigned n) {
     std::this_thread::sleep_for(std::chrono::milliseconds(n));
-};
+}
 
 void Game::setup() {
     std::cout << "[+] setting up players..." << std::endl;
@@ -18,31 +18,31 @@ void Game::setup() {
     deck.create();
     std::cout << "[+] shuffling deck..." << std::endl;
     milliSleep(500);
-};
+}
 
 void Game::gatherCards() {
     deck.returnToDeck(player->giveHand());
     deck.returnToDeck(computer->giveHand());
     deck.shuffle();
-};
+}
 
 void Game::initialHandout() {
     player->addCard(deck.drawCard());
     player->addCard(deck.drawCard());
     computer->addCard(deck.drawCard());
     computer->addCard(deck.drawCard());
-};
+}
 
 void Game::printFunds() {
     std::cout << "[$] " << computer->getName() << " money: $" << computer->getMoney() << std::endl;
     std::cout << "[$] " << player->getName() << " money: $" << player->getMoney() << std::endl;
-};
+}
 
 void Game::getBet() {
-    std::cout << "[?] enter bet > ";
+    std::cout << "[?] enter bet > $";
     input = new std::string();
     std::cin >> *input;
-};
+}
 
 bool Game::confirmBet() {
     for (auto &i : *input) {
@@ -60,7 +60,7 @@ bool Game::confirmBet() {
     player->loseMoney(bet);
 
     return true;
-};
+}
 
 std::string Game::getUserTurn(bool doubleDown) {
     std::string choice;
@@ -72,17 +72,17 @@ std::string Game::getUserTurn(bool doubleDown) {
     std::cout << "[?] enter number > ";
     std::cin >> choice;
     return choice;
-};
+}
 
 void Game::announceWinner(Player *winner) {
     std::cout << "[#] " << player->getName() << " hand: " << player->getHandWorth() << std::endl;
     std::cout << "[#] " << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
     std::cout << "[!] the winner is: " << winner->getName() << std::endl;
-};
+}
 
 void Game::handleHit() {
     player->addCard(deck.drawCard());
-};
+}
 
 void Game::refreshScreen(bool hide) {
     system(CLEARCOMMAND);
@@ -115,7 +115,7 @@ void Game::refreshScreen(bool hide) {
         std::cout << "-----------";
     }
     std::cout << "-+" << std::endl;
-};
+}
 
 void Game::activateSentientAI() {
     refreshScreen(false);
@@ -131,13 +131,13 @@ void Game::activateSentientAI() {
         computer->addCard(deck.drawCard());
         refreshScreen(false);
     }
-};
+}
 
 void Game::announceTie() {
     std::cout << "[#] " << player->getName() << " hand: " << player->getHandWorth() << std::endl;
     std::cout << "[#] " << computer->getName() << " hand: " << computer->getHandWorth() << std::endl;
     std::cout << "[!] " << player->getName() << " and " << computer->getName() << " have tied!" << std::endl;
-};
+}
 
 void Game::handleDouble() {
     handleHit();
@@ -148,13 +148,13 @@ void Game::handleDouble() {
         return;
     }
     activateSentientAI();
-};
+}
 
 void Game::errorMessage(std::string message) {
     std::cerr << message << std::endl;
     getchar();
     getchar();
-};
+}
 
 bool Game::checkBusted() {
     refreshScreen(false);
@@ -169,7 +169,7 @@ bool Game::checkBusted() {
         haveWinner = true;
     }
     return haveWinner;
-};
+}
 
 bool Game::checkComparison() {
 
@@ -195,7 +195,7 @@ bool Game::checkComparison() {
     }
 
     return haveWinner;
-};
+}
 
 bool Game::handleChoice(std::string choice, bool *firstRound) {
     char sign = choice[0];
@@ -221,7 +221,7 @@ bool Game::handleChoice(std::string choice, bool *firstRound) {
         errorMessage("[x] error: unknown option");
     }
     return winnerLoser;
-};
+}
 
 void Game::play() {
     while (player->getMoney() > 0 && computer->getMoney() > 0) {
@@ -248,4 +248,4 @@ void Game::play() {
             } 
         }
     }
-};
+}

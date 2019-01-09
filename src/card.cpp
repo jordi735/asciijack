@@ -4,7 +4,7 @@
 
 Card::Card(std::vector<std::string> a) {
     ascii = new std::vector<std::string>(std::move(a));
-};
+}
 
 const unsigned short Card::getWorth() {
     char sign = (*ascii)[1][1];
@@ -24,7 +24,7 @@ const unsigned short Card::getWorth() {
 
     std::cerr << "error: empty card" << std::endl;
     return 0;
-};
+}
 
 std::vector<std::string> Card::getArt() {
     return *ascii;

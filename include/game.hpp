@@ -42,4 +42,5 @@ class Game {
         void setup();
         void play();
 };
+
 #endif

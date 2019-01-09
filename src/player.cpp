@@ -8,11 +8,11 @@
 Player::Player(std::string n, const unsigned m) {
     name = std::move(n);
     money = m;
-};
+}
 
 const std::string Player::getName() {
     return name;
-};
+}
 
 unsigned short Player::getHandWorth() {
     unsigned short total = 0;
@@ -36,29 +36,29 @@ unsigned short Player::getHandWorth() {
     }
 
     return total;
-};
+}
 
 void Player::addCard(Card *card) {
     hand.push_back(card);
-};
+}
 
 unsigned Player::getMoney() {
     return money;
-};
+}
 
 void Player::loseMoney(unsigned m) {
     money -= m;
-};
+}
 
 void Player::gainMoney(unsigned m) {
     money += m;
-};
+}
 
 std::vector<Card *> Player::giveHand() {
     std::vector<Card *> handover(hand);
     hand.clear();
     return handover;
-};
+}
 
 void Player::printHidden() {
     std::vector<std::string> handArt(9);
@@ -77,18 +77,18 @@ void Player::printHidden() {
     for (auto &i : handArt) {
         std::cout << i << std::endl;
     }
-};
+}
 
 bool Player::isBusted() {
     if (this->getHandWorth() > 21) {
         return true;
     }
     return false;
-};
+}
 
 unsigned short Player::handSize() {
     return static_cast<unsigned short>(hand.size());
-};
+}
 
 void Player::printHand() {
     std::vector<std::string> handArt(9);
@@ -102,4 +102,4 @@ void Player::printHand() {
     for (auto &i : handArt) {
         std::cout << i << std::endl;
     }
-};
+}

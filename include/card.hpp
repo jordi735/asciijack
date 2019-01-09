@@ -13,4 +13,5 @@ class Card {
         const unsigned short getWorth();
         std::vector<std::string> getArt();
 };
+
 #endif

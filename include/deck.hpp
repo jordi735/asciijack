@@ -14,4 +14,5 @@ class Deck {
         void returnToDeck(std::vector<Card *>);
         Card *drawCard();
 };
+
 #endif

@@ -1,5 +1,5 @@
 bin/asciijack: bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o
-	g++ bin/*.o -o bin/asciijack
+	g++ bin/*.o -02 -o bin/asciijack
 
 bin/card.o: src/card.cpp include/card.hpp
 	g++ -c -O2 src/card.cpp -o bin/card.o
