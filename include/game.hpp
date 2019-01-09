@@ -1,7 +1,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
-#include "../deck/deck.hpp"
-#include "../player/player.hpp"
+
+#include "deck.hpp"
+#include "player.hpp"
 #include <string>
 
 #ifdef _WIN32
@@ -36,6 +37,7 @@ class Game {
         void handleDouble();
         void errorMessage(std::string);
         void milliSleep(unsigned);
+
     public:
         void setup();
         void play();

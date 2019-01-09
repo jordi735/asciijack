@@ -1,4 +1,4 @@
-#include "game/game.hpp"
+#include "../include/game.hpp"
 #include <iostream>
 int main() {
 

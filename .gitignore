@@ -31,9 +31,4 @@
 *.out
 *.app
 
-# Ofc
-.idea/
-asciijack*
-cmake*
-CMakeFiles/
-CMakeCache.txt
+bin/

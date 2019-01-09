@@ -1,5 +1,5 @@
-#include "../deck/deck.hpp"
-#include "game.hpp"
+#include "../include/deck.hpp"
+#include "../include/game.hpp"
 #include <iostream>
 #include <chrono>
 #include <thread>

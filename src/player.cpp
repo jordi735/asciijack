@@ -1,5 +1,5 @@
-#include "player.hpp"
-#include "../card/card.hpp"
+#include "../include/player.hpp"
+#include "../include/card.hpp"
 #include <utility>
 #include <vector>
 #include <string>
@@ -66,9 +66,9 @@ void Player::printHidden() {
         handArt[i] += " | ";
         handArt[i] += (hand[0]->getArt()[i]);
         if (i == 0) {
-            handArt[i] += "  _________ ";
+            handArt[i] += " _________ ";
         } else if (i == 8) {
-            handArt[i] += "  ~~~~~~~~~ ";
+            handArt[i] += " ~~~~~~~~~ ";
         } else {
             handArt[i] += "|+++++++++|";
         }
@@ -94,11 +94,8 @@ void Player::printHand() {
     std::vector<std::string> handArt(9);
     for (int i = 0; i < 9; i++) {
         handArt[i] += " | ";
-        for (auto &s : hand) {
-            handArt[i] += ((s->getArt())[i]);
-            if (i == 0 || i == 8) {
-                handArt[i] += " ";
-            }
+        for (auto &card : hand) {
+            handArt[i] += ((card->getArt())[i]);
         }
         handArt[i] += " | ";
     }
