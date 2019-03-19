@@ -1,6 +1,6 @@
 #include "../include/card_factory.hpp"
 #include <vector>
-#include <../resources/ascii.hpp>
+#include "../resources/ascii.hpp"
 
 std::vector<Card *> CardFactory::createSuit(CardEnum type) {
     std::vector<Card *> cards(4);
