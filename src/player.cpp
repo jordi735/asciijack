@@ -95,7 +95,7 @@ void Player::printHand() {
     for (int i = 0; i < 9; i++) {
         handArt[i] += " | ";
         for (auto &card : hand) {
-            handArt[i] += ((card->getArt())[i]);
+            handArt[i] += card->getArt()[i];
         }
         handArt[i] += " | ";
     }

@@ -1,6 +1,7 @@
 #include "../include/card.hpp"
 #include "../include/deck.hpp"
 #include "../resources/ascii.hpp"
+#include "../include/card_factory.hpp"
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -9,20 +10,12 @@
 #include <fstream>
 
 void Deck::create() {
-    cards = new std::vector<Card *>(52);
-    unsigned char *ascii_p = ascii_art;
-    for (int i = 0; i < 52; i++) {
-        std::vector<std::string> art;
-        for (int j = 0; j < 9; j++)  {
-            std::string line;
-            for (int k = 0; k < 11; k++) {
-                line.push_back(*ascii_p);
-                ++ascii_p;
-            }
-            ++ascii_p;
-            art.push_back(line);
+    CardFactory factory;
+    cards = new std::vector<Card *>;
+    for (int i = ACE; i != TWO+1; i++) {
+        for (Card *card : factory.createSuit(static_cast<CardEnum>(i))) {
+            cards->push_back(card);
         }
-        (*cards)[i] = new Card(art);
     }
 }
 
