@@ -1,3 +1,4 @@
+/*
 #include "../include/game.hpp"
 #include <iostream>
 int main() {
@@ -22,5 +23,22 @@ int main() {
     std::cout << R"(  \___  (____  /__|_|  /\___  >  \____/ \_/  \___  >__|    )" << std::endl;
     std::cout << R"( /_____/     \/      \/     \/                   \/        )" << std::endl;
     std::cout << std::endl;
+
+}
+*/
+
+#include "../include/card_factory.hpp"
+#include <iostream>
+#include <string>
+
+int main() {
+
+    CardFactory x;
+    std::vector<Card *> y = x.createSuit(ACE);
+    std::vector<std::string> z = y.at(0)->getArt();
+
+    for (int i = 0; i < z.size(); i++) {
+        std::cout << z.at(i) << std::endl;
+    }
 
 }
