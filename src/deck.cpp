@@ -10,18 +10,15 @@
 #include <fstream>
 
 void Deck::create() {
+
     CardFactory factory;
     cards = new std::vector<Card *>;
-    for (int i = ACE_CLUBS; i != TWO_SPADES+1; i++) {
-        cards->push_back(factory.createCard(static_cast<CardEnum>(i)));
+
+    for (int i = CLUBS; i <= SPADES; i++) {
+        for (int j = ACE; j <= TWO; j++) {
+            cards->push_back(factory.createCard(static_cast<CardType>(i), static_cast<CardValue>(j)));
+        }
     }
-    /*
-    factory.createCard(static_cast<CardEnum>(0));
-    factory.createCard(static_cast<CardEnum>(1));
-    factory.createCard(static_cast<CardEnum>(2));
-    factory.createCard(static_cast<CardEnum>(3));
-    factory.createCard(static_cast<CardEnum>(1));
-    */
 }
 
 void Deck::shuffle() {
