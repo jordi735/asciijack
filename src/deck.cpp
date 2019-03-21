@@ -12,11 +12,16 @@
 void Deck::create() {
     CardFactory factory;
     cards = new std::vector<Card *>;
-    for (int i = ACE; i != TWO+1; i++) {
-        for (Card *card : factory.createSuit(static_cast<CardEnum>(i))) {
-            cards->push_back(card);
-        }
+    for (int i = ACE_CLUBS; i != TWO_SPADES+1; i++) {
+        cards->push_back(factory.createCard(static_cast<CardEnum>(i)));
     }
+    /*
+    factory.createCard(static_cast<CardEnum>(0));
+    factory.createCard(static_cast<CardEnum>(1));
+    factory.createCard(static_cast<CardEnum>(2));
+    factory.createCard(static_cast<CardEnum>(3));
+    factory.createCard(static_cast<CardEnum>(1));
+    */
 }
 
 void Deck::shuffle() {
