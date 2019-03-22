@@ -9,14 +9,17 @@
 #include <chrono>
 #include <fstream>
 
+Deck::Deck(CardFactory *factory) {
+    this->factory = factory;
+}
+
 void Deck::create() {
 
-    CardFactory factory;
     cards = new std::vector<Card *>;
 
     for (int i = CLUBS; i <= SPADES; i++) {
         for (int j = ACE; j <= TWO; j++) {
-            cards->push_back(factory.createCard(static_cast<CardType>(i), static_cast<CardValue>(j)));
+            cards->push_back(factory->createCard(static_cast<CardType>(i), static_cast<CardValue>(j)));
         }
     }
 }

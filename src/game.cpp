@@ -1,5 +1,6 @@
 #include "../include/deck.hpp"
 #include "../include/game.hpp"
+#include "../include/card_factory.hpp"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -8,29 +9,30 @@ void Game::milliSleep(unsigned n) {
     std::this_thread::sleep_for(std::chrono::milliseconds(n));
 }
 
-void Game::setup() {
+void Game::setup(CardFactory *factory) {
+    this->deck = new Deck(factory);
     std::cout << "[+] setting up players..." << std::endl;
     milliSleep(500);
     player = new Player("player", 500);
     computer = new Player("dealer", 99999);
     std::cout << "[+] building deck..." << std::endl;
     milliSleep(500);
-    deck.create();
+    deck->create();
     std::cout << "[+] shuffling deck..." << std::endl;
     milliSleep(500);
 }
 
 void Game::gatherCards() {
-    deck.returnToDeck(player->giveHand());
-    deck.returnToDeck(computer->giveHand());
-    deck.shuffle();
+    deck->returnToDeck(player->giveHand());
+    deck->returnToDeck(computer->giveHand());
+    deck->shuffle();
 }
 
 void Game::initialHandout() {
-    player->addCard(deck.drawCard());
-    player->addCard(deck.drawCard());
-    computer->addCard(deck.drawCard());
-    computer->addCard(deck.drawCard());
+    player->addCard(deck->drawCard());
+    player->addCard(deck->drawCard());
+    computer->addCard(deck->drawCard());
+    computer->addCard(deck->drawCard());
 }
 
 void Game::printFunds() {
@@ -81,7 +83,7 @@ void Game::announceWinner(Player *winner) {
 }
 
 void Game::handleHit() {
-    player->addCard(deck.drawCard());
+    player->addCard(deck->drawCard());
 }
 
 void Game::refreshScreen(bool hide) {
@@ -128,7 +130,7 @@ void Game::activateSentientAI() {
         if (computer->getHandWorth() >= 17) {
             break;
         }
-        computer->addCard(deck.drawCard());
+        computer->addCard(deck->drawCard());
         refreshScreen(false);
     }
 }

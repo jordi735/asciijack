@@ -3,6 +3,7 @@
 
 #include "deck.hpp"
 #include "player.hpp"
+#include "card_factory.hpp"
 #include <string>
 
 #ifdef _WIN32
@@ -15,7 +16,7 @@
 
 class Game {
     private:
-        Deck deck;
+        Deck *deck;
         Player *player;
         Player *computer;
         void gatherCards();
@@ -39,7 +40,7 @@ class Game {
         void milliSleep(unsigned);
 
     public:
-        void setup();
+        void setup(CardFactory *);
         void play();
 };
 

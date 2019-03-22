@@ -1,4 +1,4 @@
-bin/asciijack: bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o bin/card_factory.o bin/ascii.o
+bin/asciijack: bin/card.o bin/deck.o bin/game.o bin/player.o bin/main.o bin/card_factory.o bin/ascii.o bin/small_ascii.o
 	g++ bin/*.o -O2 -o bin/asciijack
 
 bin/card.o: src/card.cpp include/card.hpp
@@ -13,6 +13,8 @@ bin/card_factory.o: src/card_factory.cpp include/card_factory.hpp
 	g++ -c -O2 src/card_factory.cpp -o bin/card_factory.o
 bin/ascii.o: resources/ascii.cpp resources/ascii.hpp
 	g++ -c -O2 resources/ascii.cpp -o bin/ascii.o
+bin/small_ascii.o: resources/small_ascii.cpp resources/small_ascii.hpp
+	g++ -c -O2 resources/small_ascii.cpp -o bin/small_ascii.o
 bin/main.o: src/main.cpp
 	g++ -c -O2 src/main.cpp -o bin/main.o
 

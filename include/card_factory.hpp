@@ -34,6 +34,20 @@ enum CardValue {
 class CardFactory {
 
     public:
+        virtual Card *createCard(CardType, CardValue) = 0;
+
+};
+
+class SmallCardFactory : public CardFactory {
+
+    public:
+        Card *createCard(CardType, CardValue);
+
+};
+
+class NormalCardFactory : public CardFactory {
+
+    public:
         Card *createCard(CardType, CardValue);
 
 };
