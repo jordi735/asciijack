@@ -13,8 +13,8 @@ int main() {
     std::cout << std::endl;
 
     Game blackjack;
-    blackjack.setup(new SmallCardFactory);
-    // blackjack.setup(new NormalCardFactory);
+    // blackjack.setup(new SmallCardFactory);
+    blackjack.setup(new NormalCardFactory);
     blackjack.play();
 
     std::cout << R"(    _________    _____   ____     _______  __ ___________  )" << std::endl;
