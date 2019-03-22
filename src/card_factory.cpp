@@ -8,9 +8,7 @@ Card *CardFactory::createCard(CardType type, CardValue value) {
     constexpr int cardWidth = 12;
     constexpr int cardHeight = 9;
 
-    int startChar, i = 0;
-    while (value != static_cast<CardValue>(i++));
-    startChar = (cardHeight * cardWidth) * (i - 1);
+    int startChar = ((cardHeight * cardWidth) * 4) * static_cast<int>(value);
     startChar += (type * (cardHeight * cardWidth));
     unsigned char *startAddress = (ascii_art + startChar);
 
