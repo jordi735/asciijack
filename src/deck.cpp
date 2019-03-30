@@ -14,8 +14,8 @@ void Deck::create() {
     CardFactory factory;
     cards = new std::vector<Card *>;
 
-    for (int i = CLUBS; i <= SPADES; i++) {
-        for (int j = ACE; j <= TWO; j++) {
+    for (int i = CardType::CLUBS; i <= CardType::SPADES; i++) {
+        for (int j = CardValue::ACE; j <= CardValue::TWO; j++) {
             cards->push_back(factory.createCard(static_cast<CardType>(i), static_cast<CardValue>(j)));
         }
     }
