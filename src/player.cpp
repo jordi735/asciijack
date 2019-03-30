@@ -5,10 +5,7 @@
 #include <string>
 #include <iostream>
 
-Player::Player(std::string n, const unsigned m) {
-    name = std::move(n);
-    money = m;
-}
+Player::Player(std::string n, const unsigned m) : name{std::move(n)}, money{m} { }
 
 const std::string Player::getName() {
     return name;

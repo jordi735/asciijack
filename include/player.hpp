@@ -7,7 +7,7 @@
 
 class Player {
     private:
-        std::string name;
+        const std::string name;
         std::vector<Card *> hand;
         unsigned money;
 

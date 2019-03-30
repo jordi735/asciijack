@@ -2,9 +2,7 @@
 #include <iostream>
 #include <utility>
 
-Card::Card(std::vector<std::string> a) {
-    ascii = new std::vector<std::string>(std::move(a));
-}
+Card::Card(std::vector<std::string> a) : ascii{new std::vector<std::string>(std::move(a))} { }
 
 const unsigned short Card::getWorth() {
     char sign = (*ascii)[1][1];

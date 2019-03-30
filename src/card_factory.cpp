@@ -10,7 +10,7 @@ Card *CardFactory::createCard(CardType type, CardValue value) {
 
     int startChar = ((cardHeight * cardWidth) * 4) * static_cast<int>(value);
     startChar += (type * (cardHeight * cardWidth));
-    unsigned char *startAddress = (ascii_art + startChar);
+    const unsigned char *startAddress = (ascii_art + startChar);
 
     std::vector<std::string> art;
     for (int j = 0; j < cardHeight; j++)  {

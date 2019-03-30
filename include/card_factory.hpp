@@ -15,19 +15,10 @@ enum CardType {
 
 enum CardValue {
 
-    ACE,
-    KING,
-    QUEEN,
-    JACK,
-    TEN,
-    NINE,
-    EIGHT,
-    SEVEN,
-    SIX,
-    FIVE,
-    FOUR,
-    THREE,
-    TWO
+    ACE, KING, QUEEN, JACK,
+    TEN, NINE, EIGHT,
+    SEVEN, SIX, FIVE,
+    FOUR, THREE, TWO
 
 };
 
